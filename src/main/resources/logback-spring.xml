@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} | %highlight(%-5level) | %yellow(%thread) | %green(%logger) | %msg%n
+			</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<appender name="sql" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} | %highlight(%-5level) | %yellow(%thread) | %green(%logger) | %msg%n
+			</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+
+    <!--避免第三方日志刷屏-->
+	<logger name="org.springboot.demo.dao" level="DEBUG">
+		<appender-ref ref="sql" />
+	</logger>
+
+</configuration>
