@@ -1,6 +1,6 @@
 package org.springboot.demo.security;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springboot.demo.dao.ext.ExtPermissionMapper;
 import org.springboot.demo.dao.mapper.UserMapper;
 import org.springboot.demo.module.User;
