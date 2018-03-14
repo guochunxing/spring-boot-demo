@@ -1,26 +1,16 @@
 package org.springboot.demo.exception;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
-@ControllerAdvice
-@ResponseBody
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /**
-     * 所有异常报错
-     *
-     * @param request
-     * @param exception
-     * @return
-     * @throws Exception
-     */
     @ExceptionHandler(value = Exception.class)
-    public String allExceptionHandler(HttpServletRequest request, Exception exception) throws Exception {
+    public String allExceptionHandler(HttpServletRequest request, Exception exception) {
         exception.printStackTrace();
         System.out.println("我报错了：" + exception.getLocalizedMessage());
         System.out.println("我报错了：" + exception.getCause());
@@ -29,5 +19,4 @@ public class GlobalExceptionHandler {
         System.out.println("我报错了：" + Arrays.toString(exception.getStackTrace()));
         return "服务器异常，请联系管理员！";
     }
-
 }
