@@ -13,17 +13,18 @@ import javax.servlet.http.HttpSession;
 public class DemoController {
 
     @RequestMapping("/api/authorized")
+    @PreAuthorize("hasAuthority('test')")
     public String authorized(HttpServletRequest request) {
         System.out.println(request.getSession().getId());
         return "Hello Secured World";
     }
 
-    @RequestMapping("/api/admin")
-    @PreAuthorize("hasAnyRole('user')")
-    public String admin() {
-        return "Hello Secured World admin";
-    }
+    @RequestMapping("/api/user")
 
+    public String admin() {
+        return "Hello Secured World user";
+    }
+    @PreAuthorize("hasAnyRole('user')")
     @RequestMapping("/test/cookie")
     public String cookie(@RequestParam("browser") String browser, HttpServletRequest request, HttpSession session) {
         //取出session中的browser

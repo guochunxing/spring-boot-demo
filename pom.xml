@@ -83,6 +83,15 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
         <!--MQ-->
         <dependency>
             <groupId>com.alibaba.rocketmq</groupId>

@@ -4,7 +4,9 @@
 
     <select id="selectPermissionByUserId" resultType="java.lang.String">
         SELECT permission.name
-        FROM user_role, role_permission, permission
+        FROM user_role
+            JOIN role_permission
+            JOIN permission
         WHERE user_role.role_id = role_permission.role_id
               AND role_permission.permission_id = permission.id
               AND user_role.user_id = #{userId}

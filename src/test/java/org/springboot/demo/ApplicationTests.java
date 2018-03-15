@@ -1,5 +1,6 @@
 package org.springboot.demo;
 
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springboot.demo.utils.EnvironmentUtil;
@@ -14,6 +15,7 @@ public class ApplicationTests {
 
     @Test
     public void contextLoads() {
+
         System.out.println(EnvironmentUtil.getProperty("rdb.driver"));
     }
 
