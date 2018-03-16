@@ -6,10 +6,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
 import org.springboot.demo.common.cost.JWTCost;
 import org.springboot.demo.module.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -30,7 +30,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     // 接收并解析用户凭证
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)  {
         try {
             User user = JSON.parseObject(req.getInputStream(), User.class);
             return authenticationManager.authenticate(
@@ -40,7 +40,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                             new ArrayList<>())
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
         }
         return null;
     }
