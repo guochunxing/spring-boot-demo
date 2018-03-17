@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -20,20 +22,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-    private AuthenticationManager authenticationManager;
 
-    public JWTLoginFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+    public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
+        super(new AntPathRequestMatcher(url));
+        setAuthenticationManager(authenticationManager);
     }
 
     // 接收并解析用户凭证
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)  {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) {
         try {
             User user = JSON.parseObject(req.getInputStream(), User.class);
-            return authenticationManager.authenticate(
+            return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getEmail(),
                             user.getToken(),
@@ -64,5 +66,10 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS256, JWTCost.signatureKey)
                 .compact();
         res.addHeader("Authorization", "Bearer " + token);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

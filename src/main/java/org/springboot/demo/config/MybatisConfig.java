@@ -3,11 +3,11 @@ package org.springboot.demo.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springboot.demo.utils.EnvironmentUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -18,19 +18,17 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class MybatisConfig {
 
-    /**
-     * @return DataSource
-     * @DependsOn("environmentUtil") 等待 environmentUtil工具类加载
-     */
+    @Autowired
+    private Environment env;
+
     @Bean
     @Primary
-    @DependsOn("environmentUtil")
     public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUsername(EnvironmentUtil.getProperty("rdb.user"));
-        dataSource.setDriverClassName(EnvironmentUtil.getProperty("rdb.driver"));
-        dataSource.setPassword(EnvironmentUtil.getProperty("rdb.password"));
-        dataSource.setUrl(EnvironmentUtil.getProperty("rdb.url"));
+        dataSource.setUsername(env.getProperty("rdb.user"));
+        dataSource.setDriverClassName(env.getProperty("rdb.driver"));
+        dataSource.setPassword(env.getProperty("rdb.password"));
+        dataSource.setUrl(env.getProperty("rdb.url"));
         dataSource.setInitialSize(10);
         dataSource.setMinIdle(10);
         dataSource.setMaxActive(50);

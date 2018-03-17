@@ -18,5 +18,4 @@ public class ApplicationTests {
 
         System.out.println(EnvironmentUtil.getProperty("rdb.driver"));
     }
-
 }
