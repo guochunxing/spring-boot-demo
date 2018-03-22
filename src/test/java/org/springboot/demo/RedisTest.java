@@ -1,6 +1,7 @@
 package org.springboot.demo;
 
 import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
+import org.apache.ibatis.javassist.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springboot.demo.module.User;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
