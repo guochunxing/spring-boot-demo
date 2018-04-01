@@ -1,4 +1,4 @@
-package org.springboot.demo;
+package org.springboot.demo.rocket;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;

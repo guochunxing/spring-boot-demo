@@ -1,4 +1,4 @@
-package org.springboot.demo;
+package org.springboot.demo.rocket;
 
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
