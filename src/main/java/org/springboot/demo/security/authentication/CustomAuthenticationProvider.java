@@ -6,6 +6,8 @@ import org.springboot.demo.dao.ext.ExtRoleMapper;
 import org.springboot.demo.dao.mapper.UserMapper;
 import org.springboot.demo.module.User;
 import org.springboot.demo.module.UserExample;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@CacheConfig(cacheNames = "authenticate")
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -33,6 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Resource
     private ExtPermissionMapper extPermissionMapper;
 
+    @Cacheable(keyGenerator = "keyGenerator")
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // 获取认证的用户名 & 密码

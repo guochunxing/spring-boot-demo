@@ -8,4 +8,5 @@ public class Sample {
         this.instance = instance;
         System.out.println("执行了");
     }
+
 }

@@ -1,16 +1,28 @@
 package org.springboot.demo.controller;
 
+import org.springboot.demo.service.demo.DemoService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RestController
 public class DemoController {
+
+    @Resource
+    private DemoService demoService;
+
+    @RequestMapping("/demoCache")
+    public String demoCache() {
+
+        return demoService.demoCache();
+    }
+
 
     @RequestMapping("/api/authorized")
     @PreAuthorize("hasAuthority('test')")
@@ -20,10 +32,10 @@ public class DemoController {
     }
 
     @RequestMapping("/api/user")
-
     public String admin() {
         return "Hello Secured World user";
     }
+
     @PreAuthorize("hasAnyRole('user')")
     @RequestMapping("/test/cookie")
     public String cookie(@RequestParam("browser") String browser, HttpServletRequest request, HttpSession session) {
