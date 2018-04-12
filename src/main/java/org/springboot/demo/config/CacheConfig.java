@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import javax.annotation.Resource;
 import java.time.Duration;
@@ -26,11 +25,16 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Resource
     private ApplicationContext applicationContext;
 
+    /**
+     * 使用new JdkSerializationRedisSerializer() 序列化，没有空构造方法，fastJson和redis序列化都会出现错误；
+     *
+     * @return
+     */
     public CacheManager cacheManager() {
-        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        RedisSerializationContext.SerializationPair<Object> serializer = RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer);
+        //FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
+        //RedisSerializationContext.SerializationPair<Object> serializationPair = RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeValuesWith(serializer)
+                //.serializeValuesWith(serializationPair)
                 .entryTtl(Duration.ofHours(1))
                 .disableCachingNullValues();
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager
