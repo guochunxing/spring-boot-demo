@@ -1,6 +1,7 @@
 package org.springboot.demo.controller;
 
 import org.springboot.demo.service.demo.DemoService;
+import org.springboot.demo.service.mq.MQSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,13 +17,18 @@ public class DemoController {
 
     @Resource
     private DemoService demoService;
+    @Resource
+    private MQSender sender;
 
     @RequestMapping("/demoCache")
     public String demoCache() {
-
         return demoService.demoCache();
     }
 
+    @RequestMapping("/sender")
+    public String sender() {
+        return sender.send();
+    }
 
     @RequestMapping("/api/authorized")
     @PreAuthorize("hasAuthority('test')")

@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import javax.annotation.Resource;
 import java.time.Duration;
@@ -31,10 +33,10 @@ public class CacheConfig extends CachingConfigurerSupport {
      * @return
      */
     public CacheManager cacheManager() {
-        //FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        //RedisSerializationContext.SerializationPair<Object> serializationPair = RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+        RedisSerializationContext.SerializationPair<Object> objectSerializationPair = RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                //.serializeValuesWith(serializationPair)
+                .serializeValuesWith(objectSerializationPair)
                 .entryTtl(Duration.ofHours(1))
                 .disableCachingNullValues();
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager

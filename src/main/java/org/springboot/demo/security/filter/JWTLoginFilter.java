@@ -1,6 +1,6 @@
 package org.springboot.demo.security.filter;
 
-import com.alibaba.rocketmq.shade.com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
