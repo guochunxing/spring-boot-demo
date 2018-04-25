@@ -32,7 +32,7 @@ CREATE TABLE `permission` (
 --  Records of `permission`
 -- ----------------------------
 BEGIN;
-INSERT INTO `permission` VALUES ('1', 'test', 'test', 'test');
+INSERT INTO `permission` VALUES ('1', 'FirstFun', 'FirstFun', 'FirstFun');
 COMMIT;
 
 -- ----------------------------

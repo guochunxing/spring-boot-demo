@@ -17,13 +17,6 @@ public class RabbitConfig {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate();
         rabbitTemplate.setConnectionFactory(connectionFactory);
-        rabbitTemplate.setConfirmCallback((correlationData, success, msg) -> {
-            if (!success) {
-                System.out.println("消息发送失败");
-            } else {
-                System.out.println("消息发送成功");
-            }
-        });
         return rabbitTemplate;
     }
 }

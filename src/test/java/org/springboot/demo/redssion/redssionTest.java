@@ -14,6 +14,7 @@ public class redssionTest {
         Config config = new Config();
         config.useSingleServer().setAddress("redis://localhost:6379");
         RedissonClient redisson = Redisson.create(config);
+        redisson.getBitSet("count");
         RLock rLock = redisson.getLock("ownLock");
         Thread.sleep(1000);
         System.out.println(rLock.isLocked());

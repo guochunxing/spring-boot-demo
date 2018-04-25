@@ -6,7 +6,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.joda.time.DateTime;
 import org.springboot.demo.common.cost.JWTCost;
 import org.springboot.demo.module.User;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +32,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     // 接收并解析用户凭证
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws IOException {
         try {
             User user = JSON.parseObject(req.getInputStream(), User.class);
             return getAuthenticationManager().authenticate(
@@ -42,9 +42,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                             new ArrayList<>())
             );
         } catch (Exception e) {
-            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            throw e;
         }
-        return null;
     }
 
     // 用户成功登录后，这个方法会被调用，我们在这个方法里生成token

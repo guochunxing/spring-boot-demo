@@ -21,7 +21,7 @@ public class DemoController {
     private MQSender sender;
 
     @RequestMapping("/demoCache")
-    public String demoCache() {
+    public String demoCache() throws InterruptedException {
         return demoService.demoCache();
     }
 
