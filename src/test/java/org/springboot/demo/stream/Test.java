@@ -31,12 +31,8 @@ public class Test {
         Optional<Integer> reduce = menu.parallelStream().map(Dish::getCalories).reduce((x, y) -> x + y);
         reduce.ifPresent(System.out::println);
 
-
         collect.forEach(System.err::println);
-
     }
-
-
 }
 
 

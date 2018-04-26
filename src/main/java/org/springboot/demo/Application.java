@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @PropertySource(value = {"file:/opt/fit2cloud/fit2cloud-test.properties"}, encoding = "UTF-8")
-@EnableTransactionManagement
 public class Application {
 
     public static void main(String[] args) {

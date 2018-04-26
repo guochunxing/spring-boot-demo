@@ -93,15 +93,13 @@ public class RedisTest {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setEmail("workabee@126.com");
-
         Jackson2HashMapper jackson2HashMapper = new Jackson2HashMapper(true);
         Map<String, Object> hash = jackson2HashMapper.toHash(user);
         stringRedisTemplate.opsForHash().putAll(user.getId(), hash);
+        stringRedisTemplate.expire(user.getId(), 1, TimeUnit.MINUTES);
         BoundHashOperations<String, String, Object> hashOperations = stringRedisTemplate.boundHashOps(user.getId());
         Map<String, Object> entries = hashOperations.entries();
         User fromHash = (User) jackson2HashMapper.fromHash(Objects.requireNonNull(entries));
         System.out.println();
-
     }
-
 }
