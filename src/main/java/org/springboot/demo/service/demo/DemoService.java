@@ -21,7 +21,7 @@ public class DemoService {
      * @return
      * @Cacheable(keyGenerator = "keyGenerator") 不能使用，如果连接出错，连服务降级都不可能
      */
-    public String demoCache() throws InterruptedException {
+    public String demoCache() {
         String demoCache = stringRedisTemplate.opsForValue().get("demoCache");
         if (StringUtils.isEmpty(demoCache)) {
             RLock lock = redissonClient.getLock("demoKey");

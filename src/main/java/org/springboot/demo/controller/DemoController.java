@@ -2,7 +2,6 @@ package org.springboot.demo.controller;
 
 import org.springboot.demo.service.demo.DemoService;
 import org.springboot.demo.service.mq.MQSender;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +19,7 @@ public class DemoController {
     @Resource
     private MQSender sender;
 
-    @RequestMapping("/demoCache")
+    @RequestMapping(name="/demoCache")
     public String demoCache() throws InterruptedException {
         return demoService.demoCache();
     }
@@ -31,7 +30,6 @@ public class DemoController {
     }
 
     @RequestMapping("/api/authorized")
-    @PreAuthorize("hasAuthority('test')")
     public String authorized(HttpServletRequest request) {
         System.out.println(request.getSession().getId());
         return "Hello Secured World";
@@ -42,7 +40,6 @@ public class DemoController {
         return "Hello Secured World user";
     }
 
-    @PreAuthorize("hasAnyRole('user')")
     @RequestMapping("/test/cookie")
     public String cookie(@RequestParam("browser") String browser, HttpServletRequest request, HttpSession session) {
         //取出session中的browser
