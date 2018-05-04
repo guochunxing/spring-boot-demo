@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.UUID;
 
 @Service
@@ -16,7 +17,7 @@ public class MQSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
 

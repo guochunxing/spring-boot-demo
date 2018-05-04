@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -52,15 +49,9 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) {
-        User user = (User) auth.getPrincipal();
-        List<String> arr = new ArrayList<>();
-        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-        authorities.forEach(author -> arr.add(author.getAuthority()));
-        String roles = String.join(",", arr);
+        String userId = (String) auth.getPrincipal();
         String token = Jwts.builder()
-                .setSubject(roles)
-                .setId(user.getId())
-                .setIssuer(user.getEmail())
+                .setId(userId)
                 .setExpiration(DateTime.now().plusMinutes(30).toDate())
                 .signWith(SignatureAlgorithm.HS256, JWTCost.signatureKey)
                 .compact();

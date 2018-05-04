@@ -20,9 +20,16 @@ public class DemoController {
     @Resource
     private MQSender sender;
 
+    @PreAuthorize("hasAnyRole('user')")
     @RequestMapping("/demoCache")
     public String demoCache() throws InterruptedException {
         return demoService.demoCache();
+    }
+
+    @RequestMapping("/host")
+    public String host() {
+        demoService.host();
+        return null;
     }
 
     @RequestMapping("/sender")

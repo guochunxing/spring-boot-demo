@@ -36,4 +36,7 @@ public class DemoService {
         return demoCache;
     }
 
+    public void host(){
+        System.out.println("看看");
+    }
 }
