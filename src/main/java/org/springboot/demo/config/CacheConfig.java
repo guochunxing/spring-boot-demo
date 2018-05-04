@@ -3,8 +3,6 @@ package org.springboot.demo.config;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.interceptor.CacheErrorHandler;
-import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +18,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Configuration
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
@@ -30,18 +29,18 @@ public class CacheConfig extends CachingConfigurerSupport {
     /**
      * 使用new JdkSerializationRedisSerializer() 序列化，没有空构造方法，fastJson和redis序列化都会出现错误；
      *
-     * @return
+     * @return CacheManager
      */
     public CacheManager cacheManager() {
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         RedisSerializationContext.SerializationPair<Object> objectSerializationPair = RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(objectSerializationPair)
-                .entryTtl(Duration.ofHours(1))
+                .entryTtl(Duration.ofHours(1))//默认过期时间
                 .disableCachingNullValues();
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager
                 .RedisCacheManagerBuilder
-                .fromConnectionFactory(applicationContext.getBean("redisConnectionFactory", RedisConnectionFactory.class))
+                .fromConnectionFactory(applicationContext.getBean(RedisConnectionFactory.class))
                 .cacheDefaults(config);
         Set<String> cacheNames = new HashSet<String>() {{
             add("codeNameCache");
@@ -62,15 +61,5 @@ public class CacheConfig extends CachingConfigurerSupport {
             }
             return sb.toString();
         };
-    }
-
-    @Override
-    public CacheResolver cacheResolver() {
-        return null;
-    }
-
-    @Override
-    public CacheErrorHandler errorHandler() {
-        return null;
     }
 }

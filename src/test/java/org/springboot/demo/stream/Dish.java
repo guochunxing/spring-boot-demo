@@ -10,9 +10,9 @@ public class Dish {
     }
 
     private final String name;
-    private final boolean vegetarian;
-    private final int calories;
-    private final Type type;
+    private boolean vegetarian;
+    private int calories;
+    private Type type;
 
     public String getName() {
         return name;
@@ -32,6 +32,7 @@ public class Dish {
 
     @Override
     public String toString() {
-        return name;
+        return name + ":" + calories;
     }
+
 }

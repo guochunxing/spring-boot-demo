@@ -23,7 +23,7 @@ public class RedssionConfig {
         Config config = new Config();
         String address = environment.getProperty("redis.lock.address");
         config.useSingleServer().setAddress(address)
-                .setDatabase(environment.getProperty("redis.lock.database", int.class));
+                .setDatabase(environment.getProperty("redis.lock.database", int.class, 0));
         config.setLockWatchdogTimeout(3000);
         return Redisson.create(config);
     }
