@@ -24,22 +24,21 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 添加自己的过滤器并且取名为JWTFilter
         Map<String, Filter> filterMap = new HashMap<>();
         filterMap.put("JWTFilter", new JWTFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-
         /*
          * 自定义url规则
          * http://shiro.apache.org/web.html#urls-
          */
         Map<String, String> filterChainDefinitionMap = shiroFilterFactoryBean.getFilterChainDefinitionMap();
-        filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/**", "JWTFilter");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
+
 
     /**
      * securityManager 不用直接注入shiroDBRealm，可能会导致事务失效

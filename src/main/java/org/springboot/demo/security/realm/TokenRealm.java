@@ -5,6 +5,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springboot.demo.common.cost.JWTCost;
 
 public class TokenRealm extends AuthorizingRealm {
 
@@ -17,6 +18,7 @@ public class TokenRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        simpleAuthorizationInfo.addRole("user");
         return simpleAuthorizationInfo;
     }
 
@@ -32,6 +34,12 @@ public class TokenRealm extends AuthorizingRealm {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
         return new SimpleAuthenticationInfo(usernamePasswordToken.getUsername(), usernamePasswordToken.getPassword(), getName());
     }
+
+    @Override
+    public void setName(String name) {
+        super.setName(JWTCost.UserNamePasswordRealm);
+    }
+
 
     @Override
     public boolean supports(AuthenticationToken token) {

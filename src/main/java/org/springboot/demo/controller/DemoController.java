@@ -1,5 +1,6 @@
 package org.springboot.demo.controller;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springboot.demo.service.demo.DemoService;
 import org.springboot.demo.service.mq.MQSender;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,9 @@ public class DemoController {
     @Resource
     private MQSender sender;
 
-    @RequestMapping(name="/demoCache")
+
+    @RequiresRoles(value={"test"})
+    @RequestMapping(name = "/demoCache")
     public String demoCache() throws InterruptedException {
         return demoService.demoCache();
     }
